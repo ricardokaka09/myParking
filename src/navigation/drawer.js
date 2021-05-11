@@ -9,11 +9,13 @@ import Login from '../screens/Login';
 import HomeStackScreen from './homeStack';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { DrawerContent } from '../screens/DrawerContent';
 const Drawer = createDrawerNavigator();
 
   
 const DrawerStack = () => (
-    <Drawer.Navigator
+    <Drawer.Navigator 
+    drawerContent= {props => <DrawerContent {...props}/>}
       drawerType='slide'
       
     >

@@ -6,8 +6,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from '../screens/Home';
 import Login from '../screens/Login';
+import Payment from '../screens/Payment';
 import  Icon  from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Register from '../screens/Register';
 // import Icon from '@mdi/react';
 // import { mdiAccount } from '@mdi/js';
 
@@ -36,26 +38,39 @@ const HomeStackScreen = () => (
         title: 'Home Page',
         headerTitleAlign: 'center',
         headerStyle: { backgroundColor : '#6153FF'},
-        headerLeft: () => ((
-          <TouchableOpacity>
-              <Icon 
-                name="reorder-three-outline"
-                size={30}
-              />
+        headerRight: () => (
+          <TouchableOpacity style={{marginRight: 10}}>
+            <Icon
+              name="heart-outline"
+              size={30}
+            />
           </TouchableOpacity>
-          
-          // <Button
-          //   onPress={() => alert('This is a button!')}
-          //   title="Info"
-          //   // color="#fff"
-          // />
-        )),
+        ),
       }} />
       <HomeStack.Screen
         name="Login"
         component={Login}
         
       />
+      <HomeStack.Screen
+        name="Register"
+        component={Register}
+        
+      />
+      <HomeStack.Screen
+      name="Payment"
+      component={Payment}
+      options={{
+        title: `Thanh Toan Bãi bạch Đằng`,
+        headerTitleAlign: 'center',
+        headerStyle: {backgroundColor: '#6153FF'},
+        headerRight: () => (
+          <TouchableOpacity style={{marginRight: 10}}>
+            <Icon name="heart-outline" size={30} />
+          </TouchableOpacity>
+        ),
+      }}
+    />
     </HomeStack.Navigator>
   );
 

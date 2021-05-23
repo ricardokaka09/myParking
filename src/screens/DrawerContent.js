@@ -33,14 +33,13 @@ export function DrawerContent(props) {
           <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
-                        <TouchableOpacity style={{marginTop: 10,marginLeft: 10,alignSelf: 'flex-start'}}>
-                            <Icon 
-                                name="arrow-left"
-                                color='#fff'
-                                size={20}
-
-                            />
-                        </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{marginTop: 10, marginLeft: 10, alignSelf: 'flex-start'}}
+                        onPress={() => {
+                            props.navigation.goBack();
+                        }}>
+                        <Icon name="arrow-left" color="#fff" size={20} />
+                    </TouchableOpacity>
                         
                         <View style={{flexDirection:'column', justifyContent:'center', alignItems: 'center',paddingTop: 10, alignSelf: 'center'}}>
                             {/* <Avatar.Image 
@@ -51,7 +50,10 @@ export function DrawerContent(props) {
                                 backgroundColor= '#fff'
                                 
                             /> */}
-                            <Icon name='account-circle' color='#fff' size={80} style={{borderRadius: 1}}/>
+                            <Icon name='account-circle'
+                             color='#fff'
+                              size={80}
+                              style={{borderRadius: 1}}/>
                             <View style={{ flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
                                 <Title style={styles.title}>Ha Duy Phương</Title>
                                 <Caption style={styles.caption}>0979831203</Caption>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "808804260047",
+    "project_id": "chuyende-e729a",
+    "storage_bucket": "chuyende-e729a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808804260047:android:5ce3fb090a042f1df57fba",
+        "android_client_info": {
+          "package_name": "com.myParking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808804260047-gov5t5qavk9vqgsrgkmag41fubouo54e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myParking",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdaZLBMVUOADtnd6MiB0B2kvhMFTyrs30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

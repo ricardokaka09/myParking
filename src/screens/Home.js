@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react'
 import { View, Text,StyleSheet, Button ,TextInput} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import { windowHeight, windowWidth } from '../utils/Dimentions';
-import Login from './Login';
+import Icon from 'react-native-vector-icons/Ionicons';
 const styles = StyleSheet.create({
  container: {
    ...StyleSheet.absoluteFillObject,
@@ -91,6 +92,8 @@ const styles = StyleSheet.create({
 });
 
 const Home = ({navigation}) => {
+  const {setOptions, toggleDrawer} = useNavigation()
+
   const [text, setText ] =  useState()
     const onChangeText = (text) => {
       setText(text);
@@ -99,6 +102,18 @@ const Home = ({navigation}) => {
   const submit = () => {
     console.log(text)
   }
+  useEffect(() => {
+    setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            toggleDrawer();
+          }}>
+          <Icon name="reorder-three-outline" size={30} />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
     return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -138,7 +153,9 @@ const Home = ({navigation}) => {
           </View>
           <Text style={styles.datCho__distance}>8 KM</Text>
         </View>
-        <TouchableOpacity style={styles.datCho__btn}>
+        <TouchableOpacity
+          style={styles.datCho__btn}
+          onPress={() => navigation.navigate('Payment')}>
           <Text style={styles.datCho__btn__text}>Dat Cho</Text>
         </TouchableOpacity>
         {/* <Button></Button> */}

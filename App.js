@@ -10,8 +10,11 @@ import {
 import Home from './src/screens/Home';
 import HomeStackScreen from './src/navigation/homeStack';
 import DrawerStack from './src/navigation/drawer';
+import Login from './src/screens/Login';
+import Register from './src/screens/Register';
 
 function Feed({ navigation }) {
+  
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Screen Demo</Text>
@@ -63,9 +66,18 @@ function MyDrawer() {
 }
 
 export default function App() {
+  const [user, setUser] = React.useState(false)
+  const auth = (status) => {
+    setUser(status)
+    console.log(status)
+  }
   return (
     <NavigationContainer>
-      <DrawerStack />
+      {user? 
+        <DrawerStack/> : 
+        <Login AUTH={auth}/>
+    }
+      
     </NavigationContainer>
   );
 }

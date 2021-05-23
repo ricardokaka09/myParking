@@ -12,12 +12,64 @@ import FormInput from '../components/FormInput'
 // import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
-// import {AuthContext} from '../navigation/AuthProvider';
+import firebaseSetup from '../constants/firebase'
+// import auth from '@react-native-firebase/auth';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+// GoogleSignin.configure({
+//   webClientId: '808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com',
+// });
 
-const Login = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+const Login = ({navigation, AUTH}) => {
+  const {auth } = firebaseSetup()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [err , setError ] = useState('')
+  
+  // const [user, setUser] = useState(false)
+  const login = async e =>{
+        e.preventDefault();
+    
+        auth.signInWithEmailAndPassword(email,password)
+        .then(auth =>{
+            AUTH(true)
+        }).catch(err => setError(err))
+    }
+    async function onGoogleButtonPress() {
+       
+      // Get the users ID token
+      const { idToken } = await GoogleSignin.signIn();
+    
+      // Create a Google credential with the token
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(googleCredential);
+    }
 
+    const signInWithGoogle = () =>{
+      auth.signInWithPopup(provider).then(auth=>{
+          console.log(auth.user)
+          // dispatch({
+          //     type: 'SET_USER_GOOGLE',
+          //     user: auth.user,
+          // })
+          // history.push('/')
+      }).catch(err=>{
+          setError(err.message)
+      })
+  }
+  const signInWithFacebook = () =>{
+      auth.signInWithPopup(providerFace).then(auth=>{
+          console.log(auth.user.displayName)
+          // dispatch({
+          //     type: 'SET_USER_FACEBOOK',
+          //     user: auth.user,
+          // })
+          // history.push('/')
+      }).catch(err=>{
+          setError(err.message)
+      })
+  }
 //   const {login, googleLogin, fbLogin} = useContext(AuthContext);
 
   return (
@@ -26,9 +78,10 @@ const Login = ({navigation}) => {
         source={require('../assets/logo.png')}
         style={styles.logo}
       />
-      {/* <Text style={styles.text}>RN Social App</Text> */}
+      <Text style={styles.text}>{err}</Text>
 
       <FormInput
+        name='email'
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
@@ -39,6 +92,7 @@ const Login = ({navigation}) => {
       />
 
       <FormInput
+        name='pass'
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
@@ -48,7 +102,7 @@ const Login = ({navigation}) => {
 
       <FormButton
         buttonTitle="Đăng Nhập"
-        onPress={() => login(email, password)}
+        onPress={(e) => login(e)}
       />
     <View style={styles.bonus}>
         <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -70,7 +124,7 @@ const Login = ({navigation}) => {
             btnType="logo-facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
-            // onPress={() => fbLogin()}
+            onPress={() => signInWithFacebook()}
           />
 
           <SocialButton
@@ -78,7 +132,7 @@ const Login = ({navigation}) => {
             btnType="logo-google"
             color="#de4d41"
             backgroundColor="#f5e7ea"
-            // onPress={() => googleLogin()}
+            onPress={() => onGoogleButtonPress().then(() => console.log('login success'))}
           />
         </View>
       ) : null}

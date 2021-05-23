@@ -4,13 +4,14 @@ import {windowHeight, windowWidth} from '../utils/Dimentions';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
+const FormInput = ({name,labelValue, placeholderText, iconType, ...rest}) => {
   return (
     <View style={styles.inputContainer}>
       <View style={styles.iconStyle}>
         <Icon name={iconType} size={25} color="#666" />
       </View>
       <TextInput
+        name={name}
         value={labelValue}
         style={styles.input}
         numberOfLines={1}

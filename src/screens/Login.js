@@ -120,7 +120,7 @@ const Login = ({navigation, AUTH}) => {
       {Platform.OS === 'android' ? (
         <View style={styles.socialBtn}>
           <SocialButton
-            buttonTitle="Sign In with Facebook"
+            buttonTitle="Đăng nhập với Facebook"
             btnType="logo-facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
@@ -128,7 +128,7 @@ const Login = ({navigation, AUTH}) => {
           />
 
           <SocialButton
-            buttonTitle="Sign In with Google"
+            buttonTitle="Đăng nhập với Google"
             btnType="logo-google"
             color="#de4d41"
             backgroundColor="#f5e7ea"

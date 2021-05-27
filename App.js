@@ -12,6 +12,8 @@ import HomeStackScreen from './src/navigation/homeStack';
 import DrawerStack from './src/navigation/drawer';
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
+import Notifi from './src/screens/Notifi';
+import HistoryBook from './src/screens/HistoryBook';
 
 function Feed({ navigation }) {
   
@@ -75,7 +77,7 @@ export default function App() {
     <NavigationContainer>
       {user? 
         <DrawerStack/> : 
-        <Login AUTH={auth}/>
+        <HistoryBook AUTH={auth}/>
     }
       
     </NavigationContainer>

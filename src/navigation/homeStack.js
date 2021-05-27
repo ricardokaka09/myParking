@@ -48,15 +48,16 @@ const HomeStackScreen = () => (
         ),
       }} />
       <HomeStack.Screen
-        name="Login"
-        component={Login}
-        
-      />
-      <HomeStack.Screen
         name="Register"
         component={Register}
         
       />
+      <HomeStack.Screen
+        name="Login"
+        component={Login}
+        
+      />
+      
       <HomeStack.Screen
       name="Payment"
       component={Payment}

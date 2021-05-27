@@ -3,9 +3,12 @@ import React, {useContext, useState,useEffect} from 'react';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
-import { auth} from '../constants/firebase'
+// import firebaseSetup from '../constants/firebase'
+import { auth } from '../constants/firebase'
+
 
 const Register = ({navigation}) => {
+  // const {auth} = firebaseSetup()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [formData, setFormData]  =useState({

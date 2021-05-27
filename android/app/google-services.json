@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "808804260047",
-    "project_id": "chuyende-e729a",
-    "storage_bucket": "chuyende-e729a.appspot.com"
+    "project_number": "532416373089",
+    "project_id": "react-native-c70ce",
+    "storage_bucket": "react-native-c70ce.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:808804260047:android:5ce3fb090a042f1df57fba",
+        "mobilesdk_app_id": "1:532416373089:android:063872e021550453782520",
         "android_client_info": {
-          "package_name": "com.myParking"
+          "package_name": "com.appnavigation"
         }
       },
       "oauth_client": [
         {
-          "client_id": "808804260047-gov5t5qavk9vqgsrgkmag41fubouo54e.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.myParking",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com",
+          "client_id": "532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCdaZLBMVUOADtnd6MiB0B2kvhMFTyrs30"
+          "current_key": "AIzaSyABXCWgOEatnp-vjp0Bf5n_NZ3KkijvD5M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com",
+              "client_id": "532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

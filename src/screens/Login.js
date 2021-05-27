@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,8 @@ import FormInput from '../components/FormInput'
 // import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
-import firebaseSetup from '../constants/firebase'
+import {auth } from '../constants/firebase'
+import firebase from '@react-native-firebase/app'
 // import auth from '@react-native-firebase/auth';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 // GoogleSignin.configure({
@@ -20,19 +21,28 @@ import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-si
 // });
 
 const Login = ({navigation, AUTH}) => {
-  const {auth } = firebaseSetup()
+  useEffect(() => {
+    scopes: ['email'],
+    GoogleSignin.configure({
+      webClientId: '532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com',
+    });
+  }, [])
+  // const {auth ,firebase} = firebaseSetup()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err , setError ] = useState('')
   
+  
   // const [user, setUser] = useState(false)
   const login = async e =>{
         e.preventDefault();
-    
-        auth.signInWithEmailAndPassword(email,password)
-        .then(auth =>{
-            AUTH(true)
-        }).catch(err => setError(err))
+        try {
+          const res = await auth.signInWithEmailAndPassword(email,password)
+          console.log(res)
+          AUTH(true)
+        } catch (error) {
+          setError(error)
+        }
     }
     async function onGoogleButtonPress() {
        
@@ -45,11 +55,38 @@ const Login = ({navigation, AUTH}) => {
       // Sign-in the user with the credential
       return auth().signInWithCredential(googleCredential);
     }
+   const _signIn = async () => {
+      try {
+        // await GoogleSignin.hasPlayServices();
+        const {accessToken, idToken} = await GoogleSignin.signIn();
+        const credential = auth.GoogleAuthProvider.credential(
+          idToken,
+          accessToken,
+        );
+        await auth().signInWithCredential(credential);
+        console.log('login chưa biết thế nào')
+      } catch (error) {
+        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+          // user cancelled the login flow
+          alert('Cancel');
+        } else if (error.code === statusCodes.IN_PROGRESS) {
+          alert('Signin in progress');
+          // operation (f.e. sign in) is in progress already
+        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+          alert('PLAY_SERVICES_NOT_AVAILABLE');
+          // play services not available or outdated
+        } else {
+          // some other error happened
+        }
+      }
+    };
+    
+    
 
     const signInWithGoogle = () =>{
       auth.signInWithPopup(provider).then(auth=>{
           console.log(auth.user)
-          // dispatch({
+          // dispatch({ 
           //     type: 'SET_USER_GOOGLE',
           //     user: auth.user,
           // })
@@ -110,7 +147,7 @@ const Login = ({navigation, AUTH}) => {
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.forgotButton_1}
-            onPress={() => navigation.navigate('Signup')}>
+            onPress={() => navigation.navigate('Regiter')}>
             <Text style={styles.navButtonText}>
             Đăng Kí
             </Text>
@@ -127,17 +164,16 @@ const Login = ({navigation, AUTH}) => {
             onPress={() => signInWithFacebook()}
           />
 
-          <SocialButton
+          <SocialButton  
             buttonTitle="Sign In with Google"
             btnType="logo-google"
             color="#de4d41"
             backgroundColor="#f5e7ea"
-            onPress={() => onGoogleButtonPress().then(() => console.log('login success'))}
+            // onPress={() => onGoogleButtonPress().then(() => console.log('login success')).catch(err=> console.log(err))}
+            onPress={() => _signIn()}
           />
         </View>
       ) : null}
-
-      
     </ScrollView>
   );
 };

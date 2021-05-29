@@ -4,7 +4,7 @@ import {View, Text, Image, StyleSheet, Animated} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {windowWidth, windowHeight} from '../utils/Dimentions';
 const width = windowWidth;
-const height = windowHeight / 3;
+const height = windowHeight / 4;
 const data = [
   {
     title: 'Anise Aroma Art Bazar',

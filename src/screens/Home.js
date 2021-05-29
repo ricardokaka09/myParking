@@ -109,7 +109,7 @@ const Home = ({navigation}) => {
           onPress={() => {
             toggleDrawer();
           }}>
-          <Icon name="reorder-three-outline" size={30} />
+          <Icon name="reorder-three-outline" size={30} color='#fff'/>
         </TouchableOpacity>
       ),
     });

@@ -19,6 +19,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { windowHeight } from '../utils/Dimentions';
+import { auth1 } from '../constants/firebase'
 
 // import{ AuthContext } from '../components/context';
 
@@ -72,7 +73,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Lịch sử đặt"
-                            onPress={() => {props.navigation.navigate('Home')}}
+                            onPress={() => {props.navigation.navigate('History')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -83,7 +84,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Yêu thích"
-                            onPress={() => {props.navigation.navigate('Profile')}}
+                            onPress={() => {props.navigation.navigate('Like')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -116,7 +117,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Đăng suất"
-                            onPress={() => {props.navigation.navigate('SupportScreen')}}
+                            onPress={() => auth1.signOut()}
                         />
                     </Drawer.Section>
                     {/* <Drawer.Section title="Preferences">

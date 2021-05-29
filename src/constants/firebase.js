@@ -1,31 +1,31 @@
-// import firebase from 'firebase'
-import firebase from '@react-native-firebase/app'
-import auth from '@react-native-firebase/auth'
+import firebase from 'firebase'
+// import firebase from '@react-native-firebase/app'
+// import auth from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-GoogleSignin.configure({
-  webClientId: '808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com',
-});
+// GoogleSignin.configure({
+//   webClientId: '808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com',
+// });
 const firebaseConfig = {
-    apiKey: "AIzaSyDTaPh10U-jlBAFwJHtnpaFLsA_1mSk3Ss",
-    authDomain: "chuyende-e729a.firebaseapp.com",
-    projectId: "chuyende-e729a",
-    storageBucket: "chuyende-e729a.appspot.com",
-    messagingSenderId: "808804260047",
-    appId: "1:808804260047:web:a3c95c0f0f3ba54bf57fba",
-    measurementId: "G-GY3LN73ERW"
+  apiKey: "AIzaSyCwkudG9bZ06AmkZ2lIEr8Gry3IYR3rT7Y",
+  authDomain: "react-native-c70ce.firebaseapp.com",
+  projectId: "react-native-c70ce",
+  storageBucket: "react-native-c70ce.appspot.com",
+  messagingSenderId: "532416373089",
+  appId: "1:532416373089:web:0fad8211c5187944782520",
+  measurementId: "G-CHGVV74LPQ"
   };
   // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
-if(!firebase.apps.length){
-  firebase.initializeApp(firebaseConfig)
-}
+firebase.initializeApp(firebaseConfig);
+// if(!firebase.apps.length){
+//   firebase.initializeApp(firebaseConfig)
+// }
 // const firebaseApp = firebase.initializeApp(firebaseConfig)
 // const db = firebaseApp.firestore();
-// const auth = firebase.auth();
+const auth1 = firebase.auth();
 // const provider = new firebase.auth.GoogleAuthProvider();
 // const providerFace = new firebase.auth.FacebookAuthProvider();
-
-export default () =>{
-  return {firebase, auth}
-}
+export {auth1}
+// export default () =>{
+//   return {firebase, auth}
+// }

@@ -1,9 +1,12 @@
 /* eslint-disable prettier/prettier */
 // import React from 'react'
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, { useState } from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 // import Carousel from '../components/Carousel';
 import Slider from '../components/Slider';
+import Icon from 'react-native-vector-icons/Ionicons'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
+import { windowWidth , windowHeight } from '../utils/Dimentions';
 const data = [
   {
     title: 'Anise Aroma Art Bazar',
@@ -29,11 +32,135 @@ const data = [
   },
 ];
 const Payment = () => {
+  const [time , setTime ] = useState(1)
+  const [checkBank, setCheckBank] = useState(false)
+  const [checkMomo, setCheckMomo] = useState(false)
+  const changeTime = (change) => {
+    // e.preventDefault()
+    if(time>1 && time < 10){
+      change == 'add' ? setTime(time+1) : setTime(time-1)
+    }
+    if(time == 1){
+      change == 'add' ? setTime(time+1) : setTime(time)
+    }
+    if(time == 10){
+      change == 'add' ? setTime(time) : setTime(time-1)
+    }
+    
+    // setTime(time+1)
+  }
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#F5F5F5', height: windowHeight - 80}}>
       <Slider />
+       {/* slide hinh anh ve bai do */}
+      <View style={styles.payment__info}> 
+        <View style={{alignItems: 'center'}}>
+          <Text>Trang thai</Text>
+          <Text style={{color: '#14E529'}}>19/21</Text>
+        </View>
+        <View style={{borderLeftWidth: 1}}></View>
+        <View style={{alignItems: 'center'}}>
+          <Text>Gio mo cua</Text>
+          <Text style={{color: '#14E529'}}>19/21</Text>
+        </View>
+        <View style={{borderLeftWidth: 1}}></View>
+        <View style={{alignItems: 'center'}}>
+          <Text>Chi duong</Text>
+          <IconM name='map-marker-radius-outline' size={20} color= '#14E529'></IconM>
+          {/* <Text style={{color: '#14E529'}}>19/21</Text> */}
+        </View>
+      </View>
+      {/** info ve trang thai && gio && chi duong */}
+      <View style={{alignItems: 'flex-start', marginLeft: 20, padding: 5}}>
+        <Text style={{fontWeight: 'bold', alignItems: 'center', fontSize: 16}}>Chọn biển số</Text>
+        <TouchableOpacity style={{backgroundColor: '#fff', alignItems: 'center',padding: 5, borderWidth: 0.5, borderRadius: 5}}>
+          <Icon name='add-outline' size={20}></Icon>
+          <Text style={{color: 'black'}}>Them bien so</Text>
+        </TouchableOpacity>
+      </View>
+      {/** Theem bieenr so */}
+      <View style={{marginLeft:20, width: windowWidth -20,alignContent: 'flex-start'}}>
+        <Text style={{fontWeight: 'bold', alignItems: 'flex-start', fontSize: 16}}>Chọn thời gian</Text>
+        <View style={{width: windowWidth - 40, flexDirection: 'row', justifyContent: 'space-around',backgroundColor: '#fff', alignItems: 'center',padding: 5, borderWidth: 0.5, borderRadius: 5}}>
+          <Icon name='remove-outline' size={40}  onPress={() => changeTime('remove')}></Icon>
+          <View style={{alignItems: 'center'}}>
+            <Text style={{fontSize: 10}}>Ket thuc trong</Text>
+            <Text style={{color: 'black', fontWeight: 'bold',fontSize: 20}}>{time} h</Text>
+          </View>
+          <Icon name='add-outline' size={40} onPress={() => changeTime('add')}></Icon>
+        </View>
+      </View>
+      {/** chon khoang thoi gian de đỗ xe , giớ hạn 1-> 10 */}
+      <View style={{flex: 1,alignItems: 'flex-start',marginLeft: 10, padding: 10}}>
+        <Text style={{fontWeight: 'bold', alignItems: 'center', fontSize: 16}}>Hình thức thanh toán</Text>
+
+        {/* -----------------------------------chon hinh thuc thanh toán ----------------------------------*/}
+        <TouchableOpacity onPress={() => setCheckMomo(!checkMomo)} >
+          <View style={{paddingBottom: 10, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',borderBottomWidth: 1, width: windowWidth -40}}
+            onPress={() => console.log('check')}
+          >
+            <Image source={require('../assets/logo.png')} style={{width: 40, height: 40, resizeMode: 'cover', padding: 10}}/>
+            <Text style={{color: '#6153FF', marginLeft:20}} 
+              onPress={() => setCheckMomo(!checkMomo)}
+              >
+            Cổng thanh toán(ATM,BankPlus,Visa
+            </Text>
+            {checkMomo?
+            null:
+            <Icon name='checkmark-outline' size={20} color='#6153FF' style={{position: 'absolute',  right: 10}}></Icon>
+          }
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setCheckMomo(!checkMomo)}>
+        <View style={{paddingBottom: 10, paddingTop:10,flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center',borderBottomWidth: 1, width: windowWidth -40}}>
+          <Image source={require('../assets/logo.png')} style={{width: 40, height: 40, resizeMode: 'cover'}}/>
+          <Text style={{color: '#6153FF', marginLeft: 20, justifyContent: 'flex-start'}} onPress={() => setCheckMomo(!checkMomo)}>
+          MOMO
+          </Text>
+          {checkMomo?
+          <Icon name='checkmark-outline' size={20} color='#6153FF' style={{position: 'absolute',  right: 10}}></Icon>:
+          null
+        }
+        </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{backgroundColor: '#C4C4C4', alignItems: 'center', padding: 10, width : windowWidth -40,borderRadius: 10,marginTop: 5}}>
+          <Text>Nhập mã khuyến mãi(nếu có)</Text>
+        </TouchableOpacity>
+        {/** chon voucher */}
+      </View>
+      {/* ---------------------------------------chon hinh thuc thanh toán --------------------------------*/}
+      <View style={styles.payment__btn}>
+        <Text style={{color: '#14E529'}}>20000 VND</Text>
+        <TouchableOpacity style={{backgroundColor: '#6153FF', alignItems: 'center',padding: 5,  borderRadius: 5, marginLeft: 20, paddingLeft: 20, paddingRight: 20}} onPress={() => setCheckBank(true)}>
+          <Text style={{color: '#fff', textTransform: 'uppercase'}}>Thanh Toán</Text>
+        </TouchableOpacity>
+      </View>
+      {/** nut thanh toan && gia tien */}
     </View>
   );
 };
 
 export default Payment;
+
+const styles = StyleSheet.create({
+  payment__info: {
+    flexDirection: 'row',
+    justifyContent: 'space-around', borderBottomWidth: 1,
+    padding: 15
+  },
+  payment__btn: {
+    position: 'absolute',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    height: 60, 
+    width: windowWidth,
+    bottom :0,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingTop: 10,
+    paddingBottom: 10,
+  }
+})

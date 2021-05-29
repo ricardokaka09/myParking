@@ -12,26 +12,37 @@ import FormInput from '../components/FormInput'
 // import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
-import firebaseSetup from '../constants/firebase'
-// import auth from '@react-native-firebase/auth';
+import { auth1 } from '../constants/firebase'
+// import firebaseSetup from '../constants/firebase'
+import auth from '@react-native-firebase/auth';
+import firebase from '@react-native-firebase/app';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-// GoogleSignin.configure({
-//   webClientId: '808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com',
-// });
+import Register from './Register';
+// import { LoginManager, AccessToken } from 'react-native-fbsdk';
+GoogleSignin.configure({
+  webClientId: '532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com',
+});
 
-const Login = ({navigation, AUTH}) => {
-  const {auth } = firebaseSetup()
+const Login = ({navigation}) => {
+  // const {auth } = firebaseSetup()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err , setError ] = useState('')
-  
+  React.useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com',
+    })
+  }, [])
   // const [user, setUser] = useState(false)
   const login = async e =>{
         e.preventDefault();
     
-        auth.signInWithEmailAndPassword(email,password)
+        auth1.signInWithEmailAndPassword(email,password)
         .then(auth =>{
-            AUTH(true)
+          console.log(auth);
+            // authentication(true)
+            // navigation.navigate("Home")
+
         }).catch(err => setError(err))
     }
     async function onGoogleButtonPress() {
@@ -45,31 +56,27 @@ const Login = ({navigation, AUTH}) => {
       // Sign-in the user with the credential
       return auth().signInWithCredential(googleCredential);
     }
-
-    const signInWithGoogle = () =>{
-      auth.signInWithPopup(provider).then(auth=>{
-          console.log(auth.user)
-          // dispatch({
-          //     type: 'SET_USER_GOOGLE',
-          //     user: auth.user,
-          // })
-          // history.push('/')
-      }).catch(err=>{
-          setError(err.message)
-      })
-  }
-  const signInWithFacebook = () =>{
-      auth.signInWithPopup(providerFace).then(auth=>{
-          console.log(auth.user.displayName)
-          // dispatch({
-          //     type: 'SET_USER_FACEBOOK',
-          //     user: auth.user,
-          // })
-          // history.push('/')
-      }).catch(err=>{
-          setError(err.message)
-      })
-  }
+    // async function onFacebookButtonPress() {
+    //   // Attempt login with permissions
+    //   const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+    
+    //   if (result.isCancelled) {
+    //     throw 'User cancelled the login process';
+    //   }
+    
+    //   // Once signed in, get the users AccesToken
+    //   const data = await AccessToken.getCurrentAccessToken();
+    
+    //   if (!data) {
+    //     throw 'Something went wrong obtaining access token';
+    //   }
+    
+    //   // Create a Firebase credential with the AccessToken
+    //   const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+    
+    //   // Sign-in the user with the credential
+    //   return auth().signInWithCredential(facebookCredential);
+    // }
 //   const {login, googleLogin, fbLogin} = useContext(AuthContext);
 
   return (
@@ -97,7 +104,8 @@ const Login = ({navigation, AUTH}) => {
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
         iconType="lock-closed-outline"
-        secureTextEntry={true}
+        // secureTextEntry={true}
+        eye='chicungdc'
       />
 
       <FormButton
@@ -110,7 +118,7 @@ const Login = ({navigation, AUTH}) => {
         </TouchableOpacity>
         <TouchableOpacity
             style={styles.forgotButton_1}
-            onPress={() => navigation.navigate('Signup')}>
+            onPress={() => navigation.navigate("Register")}>
             <Text style={styles.navButtonText}>
             Đăng Kí
             </Text>
@@ -124,7 +132,7 @@ const Login = ({navigation, AUTH}) => {
             btnType="logo-facebook"
             color="#4867aa"
             backgroundColor="#e6eaf4"
-            onPress={() => signInWithFacebook()}
+            onPress={() => console.log('login fb')}
           />
 
           <SocialButton

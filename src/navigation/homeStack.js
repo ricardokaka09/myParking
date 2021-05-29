@@ -7,29 +7,49 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from '../screens/Home';
 import Login from '../screens/Login';
 import Payment from '../screens/Payment';
-import  Icon  from 'react-native-vector-icons/Ionicons';
+// import  Icon  from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Register from '../screens/Register';
+import createTopTabs from './materialTop'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import History from '../screens/History';
+import Like from '../screens/Like';
+import IconItem from '../components/IconItem';
 // import Icon from '@mdi/react';
 // import { mdiAccount } from '@mdi/js';
 
 const HomeStack = createStackNavigator();
-// const Stack = createStackNavigator();
-// function StackScreen() {
-//     return (
-//       <Stack.Navigator>
-//         <Stack.Screen
-//           name="Home"
-//           component={Home}
-//           options={({ navigation, route }) => ({
-//             headerTitle: 'Dang Cong Hungw',
-//           })}
-//         />
-//       </Stack.Navigator>
-//     );
-//   }
+const LandingStack = createStackNavigator();
+const Landing = () =>{
+
+  return (
+    <LandingStack.Navigator initialRouteName="Login">
+      <LandingStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          title: 'Đăng Nhập',
+          headerTitleAlign: 'center',
+          headerStyle: { backgroundColor : '#6153FF'},
+          headerTintColor: '#fff',
+        }}
+      />
+       
+      <LandingStack.Screen
+        name="Register"
+        component={Register}
+        options={{
+          title: 'Đăng Kí',
+          headerTitleAlign: 'center',
+          headerStyle: { backgroundColor : '#6153FF'},
+          headerTintColor: '#fff',
+        }}
+      />
+    </LandingStack.Navigator>
+  )
+} 
   
-const HomeStackScreen = () => (
+const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator initialRouteName="Home">
       <HomeStack.Screen 
       name="Home" 
@@ -38,11 +58,13 @@ const HomeStackScreen = () => (
         title: 'Home Page',
         headerTitleAlign: 'center',
         headerStyle: { backgroundColor : '#6153FF'},
+        headerTintColor: '#fff',
         headerRight: () => (
-          <TouchableOpacity style={{marginRight: 10}}>
+          <TouchableOpacity style={{marginRight: 10}} onPress={() => navigation.navigate('Notifications')}>
             <Icon
-              name="heart-outline"
-              size={30}
+              name="bell-ring"
+              size={25}
+              color= '#fff'
             />
           </TouchableOpacity>
         ),
@@ -50,13 +72,8 @@ const HomeStackScreen = () => (
       <HomeStack.Screen
         name="Login"
         component={Login}
-        
       />
-      <HomeStack.Screen
-        name="Register"
-        component={Register}
-        
-      />
+      
       <HomeStack.Screen
       name="Payment"
       component={Payment}
@@ -65,14 +82,69 @@ const HomeStackScreen = () => (
         headerTitleAlign: 'center',
         headerStyle: {backgroundColor: '#6153FF'},
         headerRight: () => (
-          <TouchableOpacity style={{marginRight: 10}}>
-            <Icon name="heart-outline" size={30} />
-          </TouchableOpacity>
+          <IconItem/>
         ),
       }}
+    />
+      <HomeStack.Screen
+      name="Like"
+      component={Like}
+      options={{
+        title: `YÊU THÍCH`,
+        headerTitleAlign: 'center',
+        headerStyle: {backgroundColor: '#6153FF'},
+        headerTintColor: '#fff',
+          headerLeft: () => (
+            <TouchableOpacity
+                style={{marginLeft: 10, alignSelf: 'flex-start'}}
+                onPress={() => {
+                    navigation.goBack();
+                }}>
+                <Icon name="arrow-left" color="#fff" size={20} />
+            </TouchableOpacity>
+          ),
+      }}
+    />
+      <HomeStack.Screen
+        name="History"
+        component={History}
+        options={{
+          title: `LỊCH SỬ`,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#6153FF'},
+          headerTintColor: '#fff',
+          headerLeft: () => (
+            <TouchableOpacity
+                style={{marginLeft: 10, alignSelf: 'flex-start'}}
+                onPress={() => {
+                    navigation.goBack();
+                }}>
+                <Icon name="arrow-left" color="#fff" size={20} />
+            </TouchableOpacity>
+          ),
+        }}
+    />
+      <HomeStack.Screen
+        name="Notifications"
+        children={createTopTabs}
+        options={{
+          title: `THÔNG BÁO`,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#6153FF'},
+          headerTintColor: '#fff',
+          headerLeft: () => (
+            <TouchableOpacity
+                style={{marginLeft: 10, alignSelf: 'flex-start'}}
+                onPress={() => {
+                    navigation.goBack();
+                }}>
+                <Icon name="arrow-left" color="#fff" size={20} />
+            </TouchableOpacity>
+          ),
+        }}
     />
     </HomeStack.Navigator>
   );
 
-export default HomeStackScreen
+export  { HomeStackScreen ,Landing}
 

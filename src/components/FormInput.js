@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 import {windowHeight, windowWidth} from '../utils/Dimentions';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const FormInput = ({name,labelValue, placeholderText, iconType, ...rest}) => {
+const FormInput = ({name,labelValue, placeholderText, iconType, eye, ...rest}) => {
+    const [eyeOff, setEyeOff] = useState(true)
+    const [sercurity, setSercurity] = useState(true)
+    // useEffect(() => {
+    //     if( name === 'password' || name === 'password2'){
+    //       setSercurity(true)
+    //   }
+    // },[])
+    const change=   () => {
+        setEyeOff(!eyeOff)
+        setSercurity(!sercurity)
+    }
   return (
     <View style={styles.inputContainer}>
       <View style={styles.iconStyle}>
         <Icon name={iconType} size={25} color="#666" />
       </View>
+
       <TextInput
         name={name}
         value={labelValue}
@@ -17,8 +29,14 @@ const FormInput = ({name,labelValue, placeholderText, iconType, ...rest}) => {
         numberOfLines={1}
         placeholder={placeholderText}
         placeholderTextColor="#666"
+        secureTextEntry={sercurity}
         {...rest}
       />
+
+      {eye? 
+      <Icon name={eyeOff? 'eye-off-outline': 'eye-outline'} size={25} onPress={() => change()}></Icon>  :
+      null
+    }
     </View>
   );
 };

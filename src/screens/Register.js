@@ -3,23 +3,27 @@ import React, {useContext, useState,useEffect} from 'react';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
-import { auth} from '../constants/firebase'
+import { auth1} from '../constants/firebase'
 
 const Register = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  // const [formData, setFormData]  =useState({
-  //   name: '',
-  //   email: '',
-  //   password: ''
-  // }) 
+  const [eye, setEye] = useState('eye-off-outline');
+  
+  const [formData, setFormData]  =useState({
+    name: '',
+    sex: '',
+    address: '',
+    phone: '',
+    email: '',
+    password: '',
+    password2: ''
+  }) 
   const [error , setError] = useState('')
 
-  // const {name , email , password} = formData;
+  const {name,sex, address,phone , email , password, password2} = formData;
 
-  // const onChange = (e) => {
-  //   setFormData({ ...formData , [e.target.name]: e.target.value})
-  // } 
+  const onChange = (val, ten) => {
+    setFormData({ ...formData , [ten]: val})
+  } 
   
 //   const signIn = e =>{
 //     e.preventDefault();
@@ -29,15 +33,17 @@ const Register = ({navigation}) => {
 //         history.push('/')
 //     }).catch(err => alert(err.message))
 // }
+    const change =() =>{
+        console.log('active');
+    }
 const register = e =>{
     e.preventDefault();
-
-    auth.createUserWithEmailAndPassword(email,password)
+    // console.log(formData);
+    console.log(email,password)
+    auth1.createUserWithEmailAndPassword(email, password)
     .then((auth) =>{
-        // console.log('email: ' + email+ '\n' + "password: " + password);
-        //it successfully created a new user with email and password
         console.log(auth)
-        console.log({email,password})
+        
     })
     .catch(err => setError(err))
 }
@@ -48,27 +54,82 @@ const register = e =>{
         <Text style={{color: '#f22334'}}>{error}</Text>
       </View>
       <FormInput
+        name='name'
+        labelValue={name}
+        onChangeText={(val) => onChange(val, 'name')}
+        placeholderText="Họ và tên"
+        iconType="person-circle-outline"
+        // keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry={false}
+      />
+      <FormInput
+        name='sex'
+        labelValue={sex}
+        onChangeText={(val) => onChange(val, "sex")}
+        placeholderText="male"
+        iconType="man-outline"
+        // keyboardType="email-address"
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry={false}
+      />
+      <FormInput
+        name='address'
+        labelValue={address}
+        onChangeText={(val) => onChange(val, 'address')}
+        placeholderText="address"
+        iconType="location-outline"
+        multiline
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry={false}
+      />
+      <FormInput
+        name='phone'
+        labelValue={phone}
+        onChangeText={(val) => onChange(val, 'phone')}
+        placeholderText="SĐT"
+        iconType="call-outline"
+        keyboardType="numeric"
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry={false}
+      />
+      <FormInput
         name='email'
         labelValue={email}
-        onChangeText={userEmail => setEmail(userEmail)}
+        onChangeText={(val) => onChange(val, 'email')}
         placeholderText="Email"
         iconType="mail-outline"
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
+        secureTextEntry={false}
       />
 
       <FormInput
-        name='name'
+        name='password'
         labelValue={password}
-        onChangeText={userPassword => setPassword(userPassword)}
+        onChangeText={(val) => onChange(val, 'password')}
         placeholderText="Password"
         iconType="lock-closed-outline"
-        secureTextEntry={true}
+        // secureTextEntry={true}
+        eye={eye}
+      />
+      <FormInput
+        name='password2'
+        labelValue={password2}
+        onChangeText={(val) => onChange(val, 'password2')}
+        placeholderText="confirm pass"
+        iconType="lock-closed-outline"
+        // secureTextEntry={true}
+        eye={eye}
       />
 
       <FormButton
-        buttonTitle="Hoàn tất"
+        buttonTitle="Đăng Kí"
         onPress={(e) => register(e)}
       />
     </ScrollView>

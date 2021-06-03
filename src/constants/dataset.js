@@ -143,4 +143,87 @@ const favoritesDB = [
 
     },
 ];
-export { Noti, HistoryDB,favoritesDB }
+const parkingDB = [
+    {
+        name:"abc123",
+        geoLocation:{
+            latitude: 16.0094,
+            longitude: 108.2584
+        },
+        price:"15000",
+        quantity: 20,
+        slot: 10
+    },
+    {
+        name:"abc123__2",
+        geoLocation:{
+            latitude: 16.0090, 
+            longitude: 108.2584
+        },
+        price:"15000",
+        quantity: 25,
+        slot: 1
+    },
+    {
+        name:"abc123__3",
+        geoLocation:{
+            latitude: 16.0100, 
+            longitude: 108.2565
+        },
+        price:"15000",
+        quantity: 24,
+        slot: 22
+    },
+    {
+        name:"abc123__4",
+        geoLocation:{
+            latitude: 16.0125, 
+            longitude: 108.2573
+        },
+        price:"15000",
+        quantity: 24,
+        slot: 22
+    },
+    {
+        name:"abc123__5",
+        geoLocation:{
+            latitude: 16.0121,  
+            longitude: 108.2573
+        },
+        price:"15000",
+        quantity: 24,
+        slot: 22
+    },
+    {
+        name:"abc123__6",
+        geoLocation:{
+            latitude: 16.0100, 
+            longitude: 108.2562
+        },
+        price:"15000",
+        quantity: 24,
+        slot: 22
+    },
+    {
+        name:"abc123__7",
+        geoLocation:{
+            latitude: 16.0068, 
+            longitude: 108.2552
+        },
+        price:"15000",
+        quantity: 24,
+        slot: 22
+    },
+    {   //Công viên Đồng Dung, 48 Phạm Hữu Nhật, Hoà Hải, Ngũ Hành Sơn, Đà Nẵng 550000, Vietnam
+        name:"abc123__8",
+        geoLocation:{
+            latitude: 16.0064, 
+            longitude: 108.2623
+        },
+        price:"15000",
+        quantity: 24,
+        slot: 22
+    },
+    
+];
+export { Noti, HistoryDB,favoritesDB ,parkingDB}

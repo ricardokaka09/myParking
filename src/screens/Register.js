@@ -3,9 +3,13 @@ import React, {useContext, useState,useEffect} from 'react';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
-import { auth1} from '../constants/firebase'
+// import { auth1} from '../constants/firebase'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import {register} from '../constants/actions/auth'
+import auth from '@react-native-firebase/auth';
 
-const Register = ({navigation}) => {
+const Register = ({navigation,register}) => {
   const [eye, setEye] = useState('eye-off-outline');
   
   const [formData, setFormData]  =useState({
@@ -36,16 +40,10 @@ const Register = ({navigation}) => {
     const change =() =>{
         console.log('active');
     }
-const register = e =>{
-    e.preventDefault();
+const onsubmit = async dispatch =>{
     // console.log(formData);
-    console.log(email,password)
-    auth1.createUserWithEmailAndPassword(email, password)
-    .then((auth) =>{
-        console.log(auth)
-        
-    })
-    .catch(err => setError(err))
+    const res = await auth().createUserWithEmailAndPassword(email, password);
+    console.log(res);
 }
 
   return (
@@ -130,13 +128,22 @@ const register = e =>{
 
       <FormButton
         buttonTitle="Đăng Kí"
-        onPress={(e) => register(e)}
+        onPress={() => onsubmit()}
       />
     </ScrollView>
   );
 };
+Register.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  user :PropTypes.object.isRequired,
+  register: PropTypes.func.isRequired,
+}
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.isAuthenticated,
+  user: state.user
+})
 
-export default Register;
+export default connect(mapStateToProps, {register})(Register)
 
 const styles = StyleSheet.create({
   container: {

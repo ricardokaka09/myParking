@@ -2,9 +2,13 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { View, Text,StyleSheet, Button ,TextInput} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, { Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import { windowHeight, windowWidth } from '../utils/Dimentions';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { parkingDB } from '../constants/dataset'
+
 const styles = StyleSheet.create({
  container: {
    ...StyleSheet.absoluteFillObject,
@@ -99,9 +103,12 @@ const Home = ({navigation}) => {
       setText(text);
     console.log(windowWidth - 10)
   }
-  const submit = () => {
-    console.log(text)
-  }
+  const [area, setArea] = useState({})
+  const [location, setLocation] = useState({
+    latitude: 16.0085,
+    longitude:  108.2577
+  })
+  const { latitude, longitude } = location
   useEffect(() => {
     setOptions({
       headerLeft: () => (
@@ -133,19 +140,36 @@ const Home = ({navigation}) => {
        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
        style={styles.map}
        region={{
-         latitude: 37.78825,
-         longitude: -122.4324,
+         latitude: latitude,
+         longitude: longitude,
          latitudeDelta: 0.015,
          longitudeDelta: 0.0121,
        }}
       >
+         {parkingDB.map((item, i) => (
+          <Marker
+            key={i}
+            coordinate={{
+              latitude: item.geoLocation.latitude,
+              longitude: item.geoLocation.longitude
+            }}
+            onPress={() => setArea(item)}
+          >
+              <Callout>
+                
+                <View>
+                  <Text >{item.name}</Text>
+                </View>
+              </Callout>
+          </Marker>
+        ))}
      </MapView>
      
       <View style={styles.datCho}>
         <View style={styles.datCho__status}>
           <View >
             <Text>
-            Bai do Bach Dang
+            Bai do {area?.name}
             </Text>
             <Text>
               19/ 21 cho
@@ -155,7 +179,7 @@ const Home = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={styles.datCho__btn}
-          onPress={() => navigation.navigate('Payment')}>
+          onPress={() => navigation.navigate('Payment',{data: area})}>
           <Text style={styles.datCho__btn__text}>Dat Cho</Text>
         </TouchableOpacity>
         {/* <Button></Button> */}
@@ -163,6 +187,14 @@ const Home = ({navigation}) => {
    </View>
     )
 }
+Home.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  user :PropTypes.object.isRequired,
+}
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.isAuthenticated,
+  user: state.user
+})
 
-export default Home
+export default connect(mapStateToProps, null)(Home)
 

@@ -15,15 +15,17 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
-
+import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { windowHeight } from '../utils/Dimentions';
-import { auth1 } from '../constants/firebase'
+// import { auth1 } from '../constants/firebase'
+import {connect }from 'react-redux'
+import PropTypes from 'prop-types';
 
 // import{ AuthContext } from '../components/context';
 
-export function DrawerContent(props) {
+const DrawerContent = ({navigation, user}) => {
 
     // const paperTheme = useTheme();
 
@@ -31,13 +33,13 @@ export function DrawerContent(props) {
 
     return(
         <View style={{flex:1, backgroundColor: '#281DA1'}}>
-          <DrawerContentScrollView {...props}>
+          <DrawerContentScrollView>
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                     <TouchableOpacity
                         style={{marginTop: 10, marginLeft: 10, alignSelf: 'flex-start'}}
                         onPress={() => {
-                            props.navigation.goBack();
+                            navigation.goBack();
                         }}>
                         <Icon name="arrow-left" color="#fff" size={20} />
                     </TouchableOpacity>
@@ -56,7 +58,7 @@ export function DrawerContent(props) {
                               size={80}
                               style={{borderRadius: 1}}/>
                             <View style={{ flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
-                                <Title style={styles.title}>Ha Duy Phương</Title>
+                                <Title style={styles.title}>{user? user.userInfo.email : 'UNKOWN'}</Title>
                                 <Caption style={styles.caption}>0979831203</Caption>
                             </View>
                         </View>
@@ -73,7 +75,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Lịch sử đặt"
-                            onPress={() => {props.navigation.navigate('History')}}
+                            onPress={() => {navigation.navigate('History')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -84,7 +86,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Yêu thích"
-                            onPress={() => {props.navigation.navigate('Like')}}
+                            onPress={() => {navigation.navigate('Like')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -95,7 +97,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Góp ý"
-                            onPress={() => {props.navigation.navigate('BookmarkScreen')}}
+                            onPress={() => {navigation.navigate('BookmarkScreen')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -106,7 +108,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="trợ giúp"
-                            onPress={() => {props.navigation.navigate('SettingsScreen')}}
+                            onPress={() => {navigation.navigate('SettingsScreen')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -117,38 +119,24 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Đăng suất"
-                            onPress={() => auth1.signOut()}
+                            onPress={() => auth.signOut()}
                         />
                     </Drawer.Section>
-                    {/* <Drawer.Section title="Preferences">
-                        <TouchableRipple onPress={()=> {}}>
-                            <View style={styles.preference}>
-                                <Text>Dark Theme</Text>
-                                <View pointerEvents="none">
-                                    <Switch value={paperTheme.dark}/>
-                                </View>
-                            </View>
-                        </TouchableRipple>
-                    </Drawer.Section> */}
                 </View>
             </DrawerContentScrollView>
-            {/* <Drawer.Section style={styles.bottomDrawerSection}>
-                <DrawerItem 
-                    icon={({color, size}) => (
-                        <Icon 
-                        name="exit-to-app" 
-                        color={color}
-                        size={size}
-                        />
-                    )}
-                    label="Sign Out"
-                    onPress={() => {}}
-                />
-            </Drawer.Section> */}
         </View>
     );
 }
-
+DrawerContent.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    user :PropTypes.object.isRequired,
+  }
+const mapStateToProps = state => ({
+    isAuthenticated: state.user.isAuthenticated,
+    user: state.user
+  })
+  
+export default connect(mapStateToProps, null)(DrawerContent)
 const styles = StyleSheet.create({
     drawerContent: {
       flex: 1,

@@ -1,12 +1,17 @@
 /* eslint-disable prettier/prettier */
 // import React from 'react'
-import React, { useState } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image, Alert} from 'react-native';
 // import Carousel from '../components/Carousel';
 import Slider from '../components/Slider';
 import Icon from 'react-native-vector-icons/Ionicons'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 import { windowWidth , windowHeight } from '../utils/Dimentions';
+
+import { addParking, loadUser } from '../constants/actions/auth.action.js'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useNavigation } from '@react-navigation/native';
 const data = [
   {
     title: 'Anise Aroma Art Bazar',
@@ -31,7 +36,15 @@ const data = [
     id: 3,
   },
 ];
-const Payment = () => {
+const Payment = ({
+  route,
+  user,
+  parking,
+  addParking,
+  loadUser
+}) => {
+  const { data } = route.params;
+  const {setOptions, toggleDrawer} = useNavigation()
   const [time , setTime ] = useState(1)
   const [checkBank, setCheckBank] = useState(false)
   const [checkMomo, setCheckMomo] = useState(false)
@@ -47,8 +60,23 @@ const Payment = () => {
       change == 'add' ? setTime(time) : setTime(time-1)
     }
     
-    // setTime(time+1)
   }
+  const order =  () => {
+    try {
+      addParking(user,data)
+      loadUser(user)
+      Alert.alert("Thong bao", "Success")
+    } catch (error) {
+      Alert.alert("OPPS", error)
+    }
+  }
+  // setTime(time+1)
+  useEffect(() => {
+    setOptions({
+      title: `Bai do ${data?.name}`
+    });
+    console.log(data);
+  },[])
   return (
     <View style={{flex: 1, backgroundColor: '#F5F5F5', height: windowHeight - 80}}>
       <Slider />
@@ -133,7 +161,9 @@ const Payment = () => {
       {/* ---------------------------------------chon hinh thuc thanh toán --------------------------------*/}
       <View style={styles.payment__btn}>
         <Text style={{color: '#14E529'}}>20000 VND</Text>
-        <TouchableOpacity style={{backgroundColor: '#6153FF', alignItems: 'center',padding: 5,  borderRadius: 5, marginLeft: 20, paddingLeft: 20, paddingRight: 20}} onPress={() => setCheckBank(true)}>
+        <TouchableOpacity style={{backgroundColor: '#6153FF', alignItems: 'center',padding: 5,  borderRadius: 5, marginLeft: 20, paddingLeft: 20, paddingRight: 20}} 
+          onPress={() => order()}
+        >
           <Text style={{color: '#fff', textTransform: 'uppercase'}}>Thanh Toán</Text>
         </TouchableOpacity>
       </View>
@@ -142,7 +172,18 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+Payment.propTypes = {
+  parking: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  addParking: PropTypes.func.isRequired,
+  loadUser: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+  parking: state.parking,
+  user: state.user
+})
+export default connect(mapStateToProps, {addParking, loadUser})(Payment);
 
 const styles = StyleSheet.create({
   payment__info: {

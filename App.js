@@ -8,47 +8,38 @@ import {
 import { Landing } from './src/navigation/homeStack';
 import DrawerStack from './src/navigation/drawer';
 
-// import auth from '@react-native-firebase/auth'
-import { auth1 } from './src/constants/firebase'
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth'
 
-GoogleSignin.configure({
-  webClientId: '532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com',
-});
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import store from './src/constants/store'
+import { LOGIN_SUCCESS } from './src/constants/types';
+import { loadUser } from './src/constants/actions/auth.action'
+
 
 const Drawer = createDrawerNavigator();
 
-export default function App() {
-  const [initializing, setInitializing] =useState(false);
-  const [user, setUser] = useState();
-
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
+const App =({isAuthenticated, user, loadUser}) => {
   useEffect(() => {
-    auth1.onAuthStateChanged((user) => {
-      console.log(user); 
-      // setInitializing(true)
-      if (user) {
-        setInitializing(true)
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        var uid = user.uid;
-        // ...
-      } else {
-        setInitializing(false)
-      }
-    });
+    console.log('active ------1');
+    const onAuth = async() => {
+      await auth().onAuthStateChanged((user) => {
+        // console.log(user); 
+        store.dispatch({
+          type: LOGIN_SUCCESS,
+          payload: user._user
+        })
+        console.log(user._user);
+        loadUser(user._user)
+      });
+    } 
+    onAuth()
+    console.log(user);
   }, []);
-
-  // if (initializing) return null;
   
   return (
     <NavigationContainer>
-      {initializing? 
+      {isAuthenticated? 
         <DrawerStack/> : 
         <Landing />
     }
@@ -56,3 +47,16 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+App.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  user: PropTypes.object.isRequired, 
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.isAuthenticated,
+  user: state.user
+})
+
+export default connect(mapStateToProps, { loadUser })(App)

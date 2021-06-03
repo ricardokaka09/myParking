@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-// apply plugin: 'com.google.gms.google-services'  // add auth google
+apply plugin: 'com.google.gms.google-services'  // add auth google
 
 import com.android.build.OutputFile
 
@@ -195,6 +195,8 @@ dependencies {
    implementation 'com.google.android.gms:play-services-base:17.2.1'
    implementation 'com.google.android.gms:play-services-maps:17.0.0'
    implementation project(':react-native-vector-icons')
+
+   implementation project(':@react-native-firebase_firestore')
 
     // implementation 'com.facebook.android:facebook-login:[8.1)' // login fb
 

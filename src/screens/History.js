@@ -5,9 +5,18 @@ import  Icon from 'react-native-vector-icons/Ionicons';
 import FormButton from '../components/FormButton';
 import { HistoryItem } from '../components/NotiItem';
 import { HistoryDB} from '../constants/dataset'
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { loadUser} from '../constants/actions/auth.action.js'
+import { useEffect } from 'react';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const History = ({navigation}) => {
+const History = ({navigation,user, parking}) => {
+  useEffect(() => {
+    console.log(user);
+    loadUser(user)
+    console.log(parking);
+  },[])
     return (
         <View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', borderBottomWidth: 1}}>
@@ -31,7 +40,8 @@ const History = ({navigation}) => {
           renderItem={({item, index})=>{
             //console.log(`Item=${item}, index=${index}`);
             return(
-              <HistoryItem data={item}/>
+              // <HistoryItem data={item}/>
+              console.log(item)
             )
           }}
           >
@@ -39,8 +49,17 @@ const History = ({navigation}) => {
       </View>
     );
 }
+History.propTypes = {
+  parking: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  loadUser: PropTypes.func.isRequired,
+}
 
-export default History
+const mapStateToProps = state => ({
+  parking: state.parking,
+  user: state.user
+})
+export default connect(mapStateToProps, { loadUser})(History);
 
 const styles = StyleSheet.create({
     flatListItem1:{

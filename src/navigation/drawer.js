@@ -7,9 +7,11 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from '../screens/Home';
 import Login from '../screens/Login';
 import {HomeStackScreen} from './homeStack';
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { DrawerContent } from '../screens/DrawerContent';
+import DrawerContent from '../screens/DrawerContent';
 const Drawer = createDrawerNavigator();
 
   
@@ -26,5 +28,13 @@ const DrawerStack = () => (
     </Drawer.Navigator>
   );
 
-export default DrawerStack
-
+  DrawerStack.propTypes = {
+    isAuthenticated: PropTypes.bool,
+    user :PropTypes.object.isRequired,
+  }
+const mapStateToProps = state => ({
+    isAuthenticated: state.user.isAuthenticated,
+    user: state.user
+  })
+  
+export default connect(mapStateToProps, null)(DrawerStack)

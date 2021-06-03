@@ -12,38 +12,57 @@ import FormInput from '../components/FormInput'
 // import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
-import { auth1 } from '../constants/firebase'
-// import firebaseSetup from '../constants/firebase'
 import auth from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/app';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import store from '../constants/store'
 import Register from './Register';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import {login} from '../constants/actions/auth'
+import { LOGIN_SUCCESS } from '../constants/types';
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { useEffect } from 'react';
 // import { LoginManager, AccessToken } from 'react-native-fbsdk';
-GoogleSignin.configure({
-  webClientId: '532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com',
-});
 
-const Login = ({navigation}) => {
+
+const Login = ({navigation, login}) => {
   // const {auth } = firebaseSetup()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err , setError ] = useState('')
-  React.useEffect(() => {
+  useEffect(() =>{
     GoogleSignin.configure({
-      webClientId: '532416373089-077m43e5aava4b65ro870bden6kcrlm8.apps.googleusercontent.com',
-    })
-  }, [])
-  // const [user, setUser] = useState(false)
-  const login = async e =>{
-        e.preventDefault();
-    
-        auth1.signInWithEmailAndPassword(email,password)
-        .then(auth =>{
-          console.log(auth);
-            // authentication(true)
-            // navigation.navigate("Home")
+        webClientId: '808804260047-r2hbumpbliodnb6s8gkhvr2bpt3dokjv.apps.googleusercontent.com',
+      });
+  },[])
 
-        }).catch(err => setError(err))
+  // const [user, setUser] = useState(false)
+  const onSubmit =  async () =>{
+        // e.preventDefault();
+        const res = await auth().signInWithEmailAndPassword(email, password);
+        const { user } = res
+        console.log(user._user);
+        store.dispatch({
+          type: LOGIN_SUCCESS,
+          payload: user._user
+        })
+        // auth()
+        //   .createUserWithEmailAndPassword(email, password)
+        //   .then(() => {
+        //     console.log('User account created & signed in!');
+        //     dis
+        //   })
+        //   .catch(error => {
+        //     if (error.code === 'auth/email-already-in-use') {
+        //       console.log('That email address is already in use!');
+        //     }
+
+        //     if (error.code === 'auth/invalid-email') {
+        //       console.log('That email address is invalid!');
+        //     }
+
+        //     console.error(error);
+        //   });
+
     }
     async function onGoogleButtonPress() {
        
@@ -110,7 +129,7 @@ const Login = ({navigation}) => {
 
       <FormButton
         buttonTitle="Đăng Nhập"
-        onPress={(e) => login(e)}
+        onPress={() => onSubmit()}
       />
     <View style={styles.bonus}>
         <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -149,8 +168,17 @@ const Login = ({navigation}) => {
     </ScrollView>
   );
 };
+Login.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  user :PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+}
+const mapStateToProps = state => ({
+  isAuthenticated: state.user.isAuthenticated,
+  user: state.user
+})
 
-export default Login;
+export default connect(mapStateToProps, {login})(Login)
 
 const styles = StyleSheet.create({
   container: {

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text,StyleSheet, Image } from 'react-native'
+import Moment from 'react-moment'
+import { useEffect } from 'react';
 
 const NotiItem = ({data}) => {
     return (
@@ -39,6 +41,17 @@ const NotiItem = ({data}) => {
 }
 
 const HistoryItem = ({data}) => {
+  const [hours, setHours] = useState('')
+  const [day, setDay] = useState('')
+  const [month, setMonth] = useState('')
+  useEffect(() => {
+     setHours(new Date(data.timestamp).getHours().toString())
+     setDay(new Date(data.timestamp).getDay().toString())
+     setMonth(new Date(data.timestamp).getMonth().toString())
+    //  day = new Date(data.timestamp).getDay()
+    //  month = new Date(data.timestamp).getMonth()
+    console.log(hours);
+  })
   return (
     <View style={{
       flex: 1,
@@ -57,10 +70,12 @@ const HistoryItem = ({data}) => {
           <Text style={{padding: 5, fontWeight: 'bold'}}>Phí:</Text>
         </View>
         <View style={{flexDirection:'column', justifyContent: 'flex-start',alignItems: 'flex-start'}}>
+          <Text style={styles.flatListItem1}>{data.bienSo}</Text>
+          <Text style={styles.flatListItem1}>
+            {hours}h   {day}-{month} -- {+hours + +data.time}h   {day}-{month}
+          </Text>
           <Text style={styles.flatListItem1}>{data.name}</Text>
-          <Text style={styles.flatListItem1}>{data.thoigian}</Text>
-          <Text style={styles.flatListItem1}>{data.diadiem}</Text>
-          <Text style={styles.flatListItem1}>{data.phi}</Text>
+          <Text style={styles.flatListItem1}>{data.price}</Text>
 
         </View>
         <View

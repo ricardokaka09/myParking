@@ -22,11 +22,19 @@ import { windowHeight } from '../utils/Dimentions';
 // import { auth1 } from '../constants/firebase'
 import {connect }from 'react-redux'
 import PropTypes from 'prop-types';
+import store from '../constants/store';
+import { LOGOUT } from '../constants/types'
 
 // import{ AuthContext } from '../components/context';
 
 const DrawerContent = ({navigation, user}) => {
+    const submit =async () => {
 
+        await auth().signOut().then(() => store.dispatch({
+            type: LOGOUT,
+            payload: null
+        }))
+    }
     // const paperTheme = useTheme();
 
     // const { signOut, toggleTheme } = React.useContext(AuthContext);
@@ -119,7 +127,7 @@ const DrawerContent = ({navigation, user}) => {
                                 />
                             )}
                             label="Đăng suất"
-                            onPress={() => auth.signOut()}
+                            onPress={() => submit()}
                         />
                     </Drawer.Section>
                 </View>

@@ -1,38 +1,49 @@
 import firestore from '@react-native-firebase/firestore';
+import { createFactory } from 'react';
 import store from '../store'
 
-export const loadUser = (user) => async dispatch => {
+export const loadUser = (user,data) => async dispatch => {
     console.log(user.userInfo.uid);
     const res = await firestore()
-                .collection('order')
-                .doc(user.userInfo.uid)
-                .get();
-    const { _data } = res;
-    store.dispatch({
-        type: 'ADD_PARKING',
-        payload: _data
-    })
-    // console.log(_data);
-    // console.log(res._data)
+                .collection(user.userInfo.uid)
+                .doc("database").collection("order").orderBy('timestamp', 'desc')
+                .get()
+    res.docs.map(doc => (
+        store.dispatch({
+            type: "LOAD_PARKING",
+            payload: doc.data().parking
+        })
+    ))
+
 } 
 export const addParking = (user, data) =>async dispatch  => {
-    // const uid = user.user.userInfo.uid
-    // console.log(uid);
-    console.log(user.userInfo.uid)
-    data.timeStamp = new Date().getTime()
-    console.log(data);
-    const res = await firestore().collection('order').doc(user.userInfo.uid).get(data.key);
-    if(!res){
-        const res = await firestore().collection('order').doc(user.userInfo.uid).doc(data.key).set(data)
-    }
-   loadUser(user)
-// const demo = await firestore().collection('rooms').doc(user.userInfo.uid).collection('messages').add(data)
-//    const res2 = await db.collection("dchung").doc("hungdang").get()
-// console.log(demo)
-//    console.log(res)
-//    console.log(res);
-    // dispatch({
-    //     type: ADD_PARKING,
-    //     payload: res
-    // })
+
+    const timestamp = new Date().getTime()
+    data.timestamp = timestamp
+     await firestore().collection(user.userInfo.uid).doc('database').collection('order').doc(data.name).set({
+            parking: data,
+            timestamp: firestore.FieldValue.serverTimestamp(),
+    })
 }
+export const addFav = (user, data) =>async dispatch  => {
+
+    // const timestamp = new Date().getTime()
+    // data.timestamp = timestamp
+     await firestore().collection(user.userInfo.uid).doc('database').collection('favorites').doc(data.name).set({
+            parking: data,
+            timestamp: firestore.FieldValue.serverTimestamp(),
+    })
+}
+export const loadFav = (user) => async dispatch => {
+    const res = await firestore()
+                .collection(user.userInfo.uid)
+                .doc("database").collection("favorites").orderBy('timestamp', 'desc')
+                .get()
+    res.docs.map(doc => (
+        store.dispatch({
+            type: "LOAD_PAVORITES",
+            payload: doc.data().parking
+        })
+    ))
+
+} 

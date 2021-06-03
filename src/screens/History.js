@@ -9,13 +9,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { loadUser} from '../constants/actions/auth.action.js'
 import { useEffect } from 'react';
+import firestore from '@react-native-firebase/firestore'
+import store from '../constants/store';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const History = ({navigation,user, parking}) => {
+const History = ({navigation,user, parking: {myParking}}) => {
   useEffect(() => {
-    console.log(user);
-    loadUser(user)
-    console.log(parking);
+      console.log(myParking);
   },[])
     return (
         <View>
@@ -36,12 +36,12 @@ const History = ({navigation,user, parking}) => {
                 </View>
             </View>
         <FlatList 
-          data={HistoryDB}
+          data={myParking}
           renderItem={({item, index})=>{
             //console.log(`Item=${item}, index=${index}`);
             return(
-              // <HistoryItem data={item}/>
-              console.log(item)
+              <HistoryItem data={item}/>
+              // console.log(item)
             )
           }}
           >

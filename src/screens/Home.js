@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { parkingDB } from '../constants/dataset'
+import { loadFav, loadUser } from '../constants/actions/auth.action.js'
 
 const styles = StyleSheet.create({
  container: {
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
  }
 });
 
-const Home = ({navigation}) => {
+const Home = ({navigation,user, loadUser,loadFav}) => {
   const {setOptions, toggleDrawer} = useNavigation()
 
   const [text, setText ] =  useState()
@@ -120,6 +121,8 @@ const Home = ({navigation}) => {
         </TouchableOpacity>
       ),
     });
+    loadUser(user)
+    loadFav(user)
   }, []);
     return (
     <View style={styles.container}>
@@ -158,6 +161,7 @@ const Home = ({navigation}) => {
               <Callout>
                 
                 <View>
+
                   <Text >{item.name}</Text>
                 </View>
               </Callout>
@@ -172,7 +176,7 @@ const Home = ({navigation}) => {
             Bai do {area?.name}
             </Text>
             <Text>
-              19/ 21 cho
+              {area?.slot}/ {area?.amount} cho
             </Text>
           </View>
           <Text style={styles.datCho__distance}>8 KM</Text>
@@ -188,6 +192,8 @@ const Home = ({navigation}) => {
     )
 }
 Home.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  loadFav: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   user :PropTypes.object.isRequired,
 }
@@ -196,5 +202,5 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, null)(Home)
+export default connect(mapStateToProps, { loadUser , loadFav})(Home)
 

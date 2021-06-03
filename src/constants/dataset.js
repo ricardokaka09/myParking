@@ -145,84 +145,84 @@ const favoritesDB = [
 ];
 const parkingDB = [
     {
-        name:"abc123",
+        name:"130, Lê Văn Hiến, Hoà Hải",
         geoLocation:{
             latitude: 16.0094,
             longitude: 108.2584
         },
         price:"15000",
-        quantity: 20,
+        amount: 20,
         slot: 10
     },
     {
-        name:"abc123__2",
+        name:"17 Bà Bang Nhãn, Hoà Hải",
         geoLocation:{
             latitude: 16.0090, 
             longitude: 108.2584
         },
         price:"15000",
-        quantity: 25,
-        slot: 1
+        amount: 25,
+        slot: 12
     },
     {
-        name:"abc123__3",
+        name:"53 Thủy Sơn 5, Hoà Hải",
         geoLocation:{
             latitude: 16.0100, 
             longitude: 108.2565
         },
         price:"15000",
-        quantity: 24,
-        slot: 22
+        amount: 19,
+        slot: 10
     },
     {
-        name:"abc123__4",
+        name:"24 Phạm Hữu Nhật, Hoà Hải",
         geoLocation:{
             latitude: 16.0125, 
             longitude: 108.2573
         },
         price:"15000",
-        quantity: 24,
-        slot: 22
+        amount: 24,
+        slot: 19
     },
     {
-        name:"abc123__5",
+        name:"42 Đ. Nguyễn Hữu Cầu, Hoà Hải",
         geoLocation:{
             latitude: 16.0121,  
             longitude: 108.2573
         },
         price:"15000",
-        quantity: 24,
-        slot: 22
+        amount: 24,
+        slot: 21
     },
     {
-        name:"abc123__6",
+        name:"393 Lê Văn Hiến, Hoà Hải",
         geoLocation:{
             latitude: 16.0100, 
             longitude: 108.2562
         },
         price:"15000",
-        quantity: 24,
-        slot: 22
+        amount: 22,
+        slot: 8
     },
     {
-        name:"abc123__7",
+        name:"Số 542 Lê Văn Hiến, Hòa Hải",
         geoLocation:{
             latitude: 16.0068, 
             longitude: 108.2552
         },
         price:"15000",
-        quantity: 24,
-        slot: 22
+        amount: 30,
+        slot: 14
     },
     {   //Công viên Đồng Dung, 48 Phạm Hữu Nhật, Hoà Hải, Ngũ Hành Sơn, Đà Nẵng 550000, Vietnam
-        name:"abc123__8",
+        name:"48 Phạm Hữu Nhật, Hoà Hải",
         geoLocation:{
             latitude: 16.0064, 
             longitude: 108.2623
         },
         price:"15000",
-        quantity: 24,
-        slot: 22
+        amount: 24,
+        slot: 12
     },
     
 ];

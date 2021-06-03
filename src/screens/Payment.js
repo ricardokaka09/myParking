@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 // import React from 'react'
 import React, { useState, useEffect } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, Alert} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image, AlertType,Alert, prompt, TextInput} from 'react-native';
 // import Carousel from '../components/Carousel';
 import Slider from '../components/Slider';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -12,6 +12,8 @@ import { addParking, loadUser } from '../constants/actions/auth.action.js'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
+import store from '../constants/store';
+import IconItem from '../components/IconItem';
 const data = [
   {
     title: 'Anise Aroma Art Bazar',
@@ -41,13 +43,17 @@ const Payment = ({
   user,
   parking,
   addParking,
-  loadUser
+  loadUser,
+  navigation
 }) => {
   const { data } = route.params;
   const {setOptions, toggleDrawer} = useNavigation()
   const [time , setTime ] = useState(1)
   const [checkBank, setCheckBank] = useState(false)
   const [checkMomo, setCheckMomo] = useState(false)
+
+  const [ number, setNumber ] = useState('')
+  const [ license, setLicence] = useState(false)
   const changeTime = (change) => {
     // e.preventDefault()
     if(time>1 && time < 10){
@@ -61,23 +67,31 @@ const Payment = ({
     }
     
   }
-  const order =  () => {
-    try {
+  const order = async () => {
+      data.time = time
+      data.bienSo = number 
+      console.log(data);
       addParking(user,data)
-      loadUser(user)
+      store.dispatch({
+        type: 'ADD_PARKING',
+        payload: data
+      })
       Alert.alert("Thong bao", "Success")
-    } catch (error) {
-      Alert.alert("OPPS", error)
-    }
+      navigation.navigate("Home")
+    
   }
   // setTime(time+1)
   useEffect(() => {
     setOptions({
-      title: `Bai do ${data?.name}`
+      title: `Bai do ${data?.name}`,
+      headerRight: () => (
+        <IconItem data={data}/>
+      ),
     });
     console.log(data);
   },[])
   return (
+    
     <View style={{flex: 1, backgroundColor: '#F5F5F5', height: windowHeight - 80}}>
       <Slider />
        {/* slide hinh anh ve bai do */}
@@ -99,12 +113,24 @@ const Payment = ({
         </View>
       </View>
       {/** info ve trang thai && gio && chi duong */}
-      <View style={{alignItems: 'flex-start', marginLeft: 20, padding: 5}}>
-        <Text style={{fontWeight: 'bold', alignItems: 'center', fontSize: 16}}>Chọn biển số</Text>
-        <TouchableOpacity style={{backgroundColor: '#fff', alignItems: 'center',padding: 5, borderWidth: 0.5, borderRadius: 5}}>
-          <Icon name='add-outline' size={20}></Icon>
-          <Text style={{color: 'black'}}>Them bien so</Text>
-        </TouchableOpacity>
+      <View style={{flexDirection: 'row'}}>
+        <View style={{alignItems: 'flex-start', marginLeft: 20, padding: 5}}>
+          <Text style={{fontWeight: 'bold', alignItems: 'center', fontSize: 16}}>Chọn biển số</Text>
+          <TouchableOpacity 
+          style={{backgroundColor: '#fff', alignItems: 'center',padding: 5, borderWidth: 0.5, borderRadius: 5}}
+          onPress={() => setLicence(!license)}
+          >
+            <Icon name='add-outline' size={20}></Icon>
+            <Text style={{color: 'black'}}>Them bien so</Text>
+          </TouchableOpacity>
+        </View>
+        { license? 
+    
+        <View style={{alignContent: 'center',marginTop: 30,backgroundColor: '#ffdeee',marginLeft: 20, padding: 5,width: 100, height: 50}}>
+         <TextInput value={number} onChangeText={text => setNumber(text)} style={{textTransform: 'uppercase',backgroundColor: '#fff'}}></TextInput>
+        </View>: 
+        null    
+      }
       </View>
       {/** Theem bieenr so */}
       <View style={{marginLeft:20, width: windowWidth -20,alignContent: 'flex-start'}}>
@@ -160,7 +186,7 @@ const Payment = ({
       </View>
       {/* ---------------------------------------chon hinh thuc thanh toán --------------------------------*/}
       <View style={styles.payment__btn}>
-        <Text style={{color: '#14E529'}}>20000 VND</Text>
+        <Text style={{color: '#14E529'}}>{data.price} VND</Text>
         <TouchableOpacity style={{backgroundColor: '#6153FF', alignItems: 'center',padding: 5,  borderRadius: 5, marginLeft: 20, paddingLeft: 20, paddingRight: 20}} 
           onPress={() => order()}
         >

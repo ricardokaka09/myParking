@@ -17,7 +17,7 @@ const Drawer = createDrawerNavigator();
   
 const DrawerStack = () => (
     <Drawer.Navigator 
-    drawerContent= {props => <DrawerContent {...props}/>}
+      drawerContent= {props => <DrawerContent {...props}/>}
       drawerType='slide'
       
     >

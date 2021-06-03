@@ -25,15 +25,18 @@ const App =({isAuthenticated, user, loadUser}) => {
     const onAuth = async() => {
       await auth().onAuthStateChanged((user) => {
         // console.log(user); 
-        store.dispatch({
-          type: LOGIN_SUCCESS,
-          payload: user._user
-        })
-        console.log(user._user);
-        loadUser(user._user)
+        if(user){
+          store.dispatch({
+            type: LOGIN_SUCCESS,
+            payload: user._user
+          })
+          console.log(user._user);
+          
+        }
       });
     } 
     onAuth()
+   
     console.log(user);
   }, []);
   

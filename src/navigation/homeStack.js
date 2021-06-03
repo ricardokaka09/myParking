@@ -81,9 +81,7 @@ const HomeStackScreen = ({navigation}) => (
         title: `Thanh Toan Bãi bạch Đằng`,
         headerTitleAlign: 'center',
         headerStyle: {backgroundColor: '#6153FF'},
-        headerRight: () => (
-          <IconItem/>
-        ),
+        
       }}
     />
       <HomeStack.Screen

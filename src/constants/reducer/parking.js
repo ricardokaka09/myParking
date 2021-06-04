@@ -35,6 +35,13 @@ export default function(state = initialState, action){
               parkingFav: [payload ,...state.parkingFav],
               loading: true
           }
+        // case "REMOVE_FAVORITES":   
+        //   if(state.parkingFav)
+        //   return {
+        //       ...state,
+        //       parkingFav: [payload ,...state.parkingFav],
+        //       loading: true
+        //   }
     
         default:
             return state

@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import store from './src/constants/store'
 import { LOGIN_SUCCESS } from './src/constants/types';
 import { loadUser } from './src/constants/actions/auth.action'
+import Covid from './src/screens/Covid';
 
 
 const Drawer = createDrawerNavigator();
@@ -41,6 +42,7 @@ const App =({isAuthenticated, user, loadUser}) => {
   }, []);
   
   return (
+    // <Covid/>
     <NavigationContainer>
       {isAuthenticated? 
         <DrawerStack/> : 

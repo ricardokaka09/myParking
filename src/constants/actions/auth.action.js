@@ -34,6 +34,15 @@ export const addFav = (user, data) =>async dispatch  => {
             timestamp: firestore.FieldValue.serverTimestamp(),
     })
 }
+export const removeFav = (user, data) =>async dispatch  => {
+
+    // const timestamp = new Date().getTime()
+    // data.timestamp = timestamp
+     await firestore().collection(user.userInfo.uid).doc('database').collection('favorites').doc(data.name).delete()
+            .then(() => {
+                console.log('remove success');
+            })
+}
 export const loadFav = (user) => async dispatch => {
     const res = await firestore()
                 .collection(user.userInfo.uid)

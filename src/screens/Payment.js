@@ -88,7 +88,6 @@ const Payment = ({
         <IconItem data={data}/>
       ),
     });
-    console.log(data);
   },[])
   return (
     
